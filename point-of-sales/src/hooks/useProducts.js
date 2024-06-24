@@ -1,24 +1,40 @@
-import useSWR from "swr";
 import axios from "axios";
+import useSWR from "swr";
 
-const getProducts = (url) => axios.get(url).then((res) => res.data);
+const fetcher = async (url) => {
+  try {
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
 
-const useProducts = (categoryId) => {
-  const endpoint = categoryId
-    ? `http://localhost:8080/pos/api/listproduct?category_id=${categoryId}`
-    : "http://localhost:8080/pos/api/listproduct";
+const useProducts = (category_id, searchQuery, sortOption) => {
+  let url = `http://localhost:8080/pos/api/listproduct`;
 
-  // Tambahkan console.log untuk debugging
-  console.log("Fetching from endpoint:", endpoint);
+  // nambahin id kategori jika ada
+  if (category_id) {
+    url += `?category_id=${category_id}`;
+  }
 
-  const { data, error } = useSWR(endpoint, getProducts);
+  // nambahin searchQuery jika ada
+  if (searchQuery) {
+    url += `${category_id ? "&" : "?"}title=${searchQuery}`;
+  }
 
-  console.log("Fetched data:", data);
-  console.log("Fetch error:", error);
+  // nentuin sort_by dan sort_order berdasarkan sortOption
+  const [sortBy, sortOrder] = sortOption.split("_");
+  url += `${
+    searchQuery || category_id ? "&" : "?"
+  }sort_by=${sortBy}&sort_order=${sortOrder}`;
+
+  const { data: products, error } = useSWR(url, fetcher);
 
   return {
-    products: data,
-    isLoading: !error && !data,
+    products: products || [],
+    isLoading: !products && !error,
     isError: error,
   };
 };
