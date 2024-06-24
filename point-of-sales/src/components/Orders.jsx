@@ -54,9 +54,9 @@ const Orders = () => {
   if (isError || isErrorCategories) return <div>Failed to load</div>;
   if (isLoading || isLoadingCategories) return <div>Loading...</div>;
 
-  const selectedCategoryName = categories.find(
-    (category) => category.id === selectedCategory
-  )?.name;
+  const selectedCategoryName =
+    categories.find((category) => category.id === selectedCategory)?.name ||
+    "tersebut";
 
   return (
     <div className="flex h-screen bg-gray-100">
