@@ -4,7 +4,7 @@ import Layout from "../layout/Layout";
 const OrdersPage = () => {
   return (
     <Layout>
-      <Orders></Orders>
+      <Orders />
     </Layout>
   );
 };
