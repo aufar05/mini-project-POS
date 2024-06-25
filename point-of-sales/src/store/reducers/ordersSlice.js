@@ -52,6 +52,10 @@ const ordersSlice = createSlice({
         state.total -= existingProduct.price;
       }
     },
+    clearOrders: (state) => {
+      state.items = [];
+      state.total = 0;
+    },
   },
 });
 
@@ -60,6 +64,7 @@ export const {
   removeProduct,
   incrementQuantity,
   decrementQuantity,
+  clearOrders,
 } = ordersSlice.actions;
 
 export default ordersSlice.reducer;
