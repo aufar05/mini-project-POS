@@ -1,5 +1,6 @@
 import { MdDelete } from "react-icons/md";
 import { FormatRupiah } from "../../utils/FormatRupiah";
+import { useNavigate } from "react-router-dom";
 
 const OrderList = ({
   orders,
@@ -7,40 +8,54 @@ const OrderList = ({
   onIncrementQuantity,
   onDecrementQuantity,
 }) => {
+  const navigate = useNavigate();
+
+  const handleBayarClick = () => {
+    navigate("/payment");
+  };
+
   return orders.items.length > 0 ? (
-    <div className="space-y-4">
-      {orders.items.map((order) => (
-        <div key={order.id} className="flex justify-between items-center">
-          <div>
-            <h3 className="text-sm max-w-40 font-semibold">{order.title}</h3>
-            <p className="text-sm">Quantity: {order.quantity}</p>
-            <p className="text-sm">{FormatRupiah(order.totalPrice)}</p>
+    <div className="flex flex-col justify-between h-[90%]">
+      <div>
+        {orders.items.map((order) => (
+          <div
+            key={order.id}
+            className="flex justify-between items-center mb-4"
+          >
+            <div>
+              <h3 className="text-sm max-w-40 font-semibold">{order.title}</h3>
+              <p className="text-sm">Quantity: {order.quantity}</p>
+              <p className="text-sm">{FormatRupiah(order.totalPrice)}</p>
+            </div>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => onDecrementQuantity(order.id)}
+                className="bg-gray-200 p-2 rounded"
+              >
+                -
+              </button>
+              <button
+                onClick={() => onIncrementQuantity(order.id)}
+                className="bg-gray-200 p-2 rounded"
+              >
+                +
+              </button>
+              <button
+                onClick={() => onRemoveProduct(order.id)}
+                className="text-red-500"
+              >
+                <MdDelete />
+              </button>
+            </div>
           </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => onDecrementQuantity(order.id)}
-              className="bg-gray-200 p-2 rounded"
-            >
-              -
-            </button>
-            <button
-              onClick={() => onIncrementQuantity(order.id)}
-              className="bg-gray-200 p-2 rounded"
-            >
-              +
-            </button>
-            <button
-              onClick={() => onRemoveProduct(order.id)}
-              className="text-red-500"
-            >
-              <MdDelete />
-            </button>
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
       <div className="mt-4">
         <p className="text-xl font-bold">Total: {FormatRupiah(orders.total)}</p>
-        <button className="w-full p-2 mt-2 bg-blue-500 text-white rounded">
+        <button
+          onClick={handleBayarClick}
+          className="w-full p-2 mt-2 bg-blue-500 text-white rounded"
+        >
           Bayar
         </button>
       </div>
