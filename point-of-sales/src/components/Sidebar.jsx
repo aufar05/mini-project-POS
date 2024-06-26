@@ -11,7 +11,7 @@ const getClassName = ({ isActive }) =>
 
 const Sidebar = () => {
   return (
-    <div className="h-screen w-56 bg-gray-800  text-white flex-shrink-0">
+    <div className="min-h-screen w-56 bg-gray-800  text-white flex-shrink-0">
       <div className="p-4 text-2xl font-bold border-b  border-gray-700  ">
         FinalProjectPOS
       </div>
