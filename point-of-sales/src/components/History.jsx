@@ -81,26 +81,28 @@ const History = () => {
 
   return (
     <div className="p-8">
-      <h2 className="text-2xl font-bold mb-4">Riwayat Transaksi</h2>
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">
-          Filter bedasarkan tanggal:
-        </label>
-        <input
-          type="date"
-          value={filterDate}
-          onChange={(e) => setFilterDate(e.target.value)}
-          className="p-2 border rounded"
-        />
+      <div className="flex justify-between">
+        <h2 className="text-2xl font-bold mb-4">Riwayat Transaksi</h2>
+        <div className="mb-4 flex items-center space-x-2">
+          <label className="block text-sm font-medium mb-2">
+            Filter bedasarkan tanggal :
+          </label>
+          <input
+            type="date"
+            value={filterDate}
+            onChange={(e) => setFilterDate(e.target.value)}
+            className="p-2 border rounded"
+          />
+        </div>
       </div>
-      <table className="min-w-full bg-white ">
+      <table className="min-w-full bg-white text-sm ">
         <thead>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-2 border-b-2 border-black   text-left relative"
+                  className="px-4 py-1 border-b-2 border-black   text-left relative"
                 >
                   <div className="flex items-center">
                     {header.column.getCanSort() && (
@@ -112,7 +114,7 @@ const History = () => {
                     {header.column.columnDef.header}{" "}
                     <span className="absolute right-0 mr-4">
                       {{
-                        asc: " 🔼",
+                        asc: " 🔼 ",
                         desc: " 🔽",
                       }[header.column.getIsSorted()] ?? null}
                     </span>
