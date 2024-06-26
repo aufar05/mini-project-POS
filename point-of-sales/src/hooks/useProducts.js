@@ -33,7 +33,7 @@ const useProducts = (category_id, searchQuery, sortOption) => {
   const { data: products, error } = useSWR(url, fetcher);
 
   return {
-    products: products || [],
+    products: products,
     isLoading: !products && !error,
     isError: error,
   };
