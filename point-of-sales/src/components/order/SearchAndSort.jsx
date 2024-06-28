@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { debounce } from "lodash";
 
 const SearchAndSort = ({
   searchQuery,
@@ -7,19 +6,18 @@ const SearchAndSort = ({
   sortOption,
   setSortOption,
 }) => {
-  const [tempSearchQuery, setTempSearchQuery] = useState(searchQuery);
-
-  const debouncedSetSearchQuery = debounce(setSearchQuery, 1500);
+  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
 
   useEffect(() => {
-    debouncedSetSearchQuery(tempSearchQuery);
-    return () => {
-      debouncedSetSearchQuery.cancel();
-    };
-  }, [tempSearchQuery, debouncedSetSearchQuery]);
+    const timeoutId = setTimeout(() => {
+      setSearchQuery(localSearchQuery);
+    }, 1500);
+
+    return () => clearTimeout(timeoutId);
+  }, [localSearchQuery, setSearchQuery]);
 
   const onSearchChange = (e) => {
-    setTempSearchQuery(e.target.value);
+    setLocalSearchQuery(e.target.value);
   };
 
   return (
@@ -28,7 +26,7 @@ const SearchAndSort = ({
         type="text"
         placeholder="Cari Nama Produk"
         className="border p-2 mr-4 flex-grow"
-        value={tempSearchQuery}
+        value={localSearchQuery}
         onChange={onSearchChange}
       />
       <select
