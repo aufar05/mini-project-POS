@@ -147,7 +147,6 @@ const AddProductForm = () => {
           <label className="block mb-2">Harga Satuan</label>
           <input
             type="number"
-            step="0.01"
             {...register("price")}
             className="w-full p-2 border border-gray-300 rounded"
           />
