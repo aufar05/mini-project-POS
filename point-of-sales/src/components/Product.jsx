@@ -44,13 +44,13 @@ const Product = () => {
         cell: (info) => (
           <div className="flex gap-2">
             <Link
-              to={`/product/${info.row.original.id}`}
+              to={`/produk/${info.row.original.id}`}
               className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-lg text-sm transition duration-300 ease-in-out"
             >
               Detail
             </Link>
             <Link
-              to={`/product/edit/${info.row.original.id}`}
+              to={`/produk/edit/${info.row.original.id}`}
               className="bg-yellow-500 hover:bg-yellow-600 text-white py-1 px-3 rounded-lg text-sm transition duration-300 ease-in-out"
             >
               Edit
@@ -107,11 +107,24 @@ const Product = () => {
       });
     } catch (error) {
       console.error("Error deleting data:", error);
-      Swal.fire({
-        title: "Gagal menghapus",
-        text: "Produk tidak bisa dihapus karena sudah ada pada riwayat transaksi",
-        icon: "error",
-      });
+
+      if (
+        error.response &&
+        typeof error.response.data === "string" &&
+        error.response.data.includes("Produk sudah ada di riwayat transaksi")
+      ) {
+        Swal.fire({
+          title: "Gagal menghapus",
+          text: "Produk tidak bisa dihapus karena sudah ada pada riwayat transaksi",
+          icon: "error",
+        });
+      } else {
+        Swal.fire({
+          title: "Gagal menghapus",
+          text: "Gagal Menghapus produk ",
+          icon: "error",
+        });
+      }
     }
   };
 
