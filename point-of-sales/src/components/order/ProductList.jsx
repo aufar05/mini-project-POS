@@ -21,22 +21,26 @@ const ProductList = ({ products, onProductClick, categoryName }) => {
   }
 
   return (
-    <div className="grid grid-rows-2 grid-cols-4 gap-4">
-      {products.map((product) => (
-        <div
-          key={product.id}
-          className="group p-4 border rounded cursor-pointer bg-white hover:bg-blue-100 flex flex-col items-center"
-          onClick={() => onProductClick(product)}
-        >
-          <img
-            src={product.image}
-            alt={product.title}
-            className="aspect-square transition-opacity duration-300 group-hover:opacity-75"
-          />
-          <h3 className="text-sm font-semibold text-center">{product.title}</h3>
-          <p className="text-center">{FormatRupiah(product.price)}</p>
-        </div>
-      ))}
+    <div className="overflow-y-auto max-h-[80%]">
+      <div className="grid grid-rows-2 grid-cols-4 gap-4 ">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="group p-4 border rounded cursor-pointer bg-white hover:bg-blue-100 flex flex-col items-center"
+            onClick={() => onProductClick(product)}
+          >
+            <img
+              src={product.image}
+              alt={product.title}
+              className="aspect-square transition-opacity duration-300 group-hover:opacity-75"
+            />
+            <h3 className="text-sm font-semibold text-center">
+              {product.title}
+            </h3>
+            <p className="text-center">{FormatRupiah(product.price)}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
