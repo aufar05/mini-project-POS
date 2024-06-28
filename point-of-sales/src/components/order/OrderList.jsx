@@ -15,25 +15,25 @@ const OrderList = ({
   };
 
   return orders.items.length > 0 ? (
-    <div className="flex flex-col justify-between h-[90%]">
+    <div className="flex flex-col justify-between h-[90%] overflow-y-auto ">
       <div>
         {orders.items.map((order) => (
           <div
             key={order.id}
-            className="flex justify-between items-center mb-4"
+            className="flex justify-between items-center mb-4 p-2  bg-white shadow rounded"
           >
-            <div>
-              <h3 className="text-sm max-w-40 font-semibold">{order.title}</h3>
-              <p className="text-sm">Quantity: {order.quantity}</p>
+            <div className="flex flex-col mr-2 ">
+              <h3 className="text-sm font-semibold">{order.title}</h3>
               <p className="text-sm">{FormatRupiah(order.totalPrice)}</p>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex items-center space-x-2">
               <button
                 onClick={() => onDecrementQuantity(order.id)}
                 className="bg-gray-200 p-2 rounded"
               >
                 -
               </button>
+              <span className="text-sm font-semibold">{order.quantity}</span>
               <button
                 onClick={() => onIncrementQuantity(order.id)}
                 className="bg-gray-200 p-2 rounded"
@@ -44,13 +44,13 @@ const OrderList = ({
                 onClick={() => onRemoveProduct(order.id)}
                 className="text-red-500"
               >
-                <MdDelete />
+                <MdDelete size={20} />
               </button>
             </div>
           </div>
         ))}
       </div>
-      <div className="mt-4">
+      <div className="mt-4 p-4 bg-white ">
         <p className="text-xl font-bold">Total: {FormatRupiah(orders.total)}</p>
         <button
           onClick={handleBayarClick}
@@ -61,15 +61,16 @@ const OrderList = ({
       </div>
     </div>
   ) : (
-    <div>
+    <div className="flex flex-col items-center">
       <dotlottie-player
         src="https://lottie.host/795e7a29-7fac-453b-a350-f54ac5231697/aXk0vj2poA.json"
         background="transparent"
         speed="1"
         loop
         autoplay
-      ></dotlottie-player>{" "}
-      <p className="text-center font-semibold">
+        className="w-64 h-64"
+      ></dotlottie-player>
+      <p className="text-center font-semibold mt-4">
         Belum Ada Produk yang di order
       </p>
     </div>
