@@ -10,6 +10,7 @@ import {
 import useTransactionDetail from "../hooks/useTransactionDetail";
 import { FormatRupiah } from "../utils/FormatRupiah";
 import { FaSort } from "react-icons/fa";
+import Loading from "../utils/Loading";
 
 const HistoryDetail = () => {
   const { id } = useParams();
@@ -56,7 +57,12 @@ const HistoryDetail = () => {
     },
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   if (isError) return <div>Error loading transaction details</div>;
 
   const firstDetail = transactionDetail && transactionDetail[0];
