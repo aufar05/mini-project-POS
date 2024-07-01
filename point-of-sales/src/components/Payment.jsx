@@ -1,8 +1,8 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearOrders } from "../store/reducers/ordersSlice";
-
 import axios from "axios";
+import Swal from "sweetalert2";
 import OrderDetails from "./payment/OrderDetails";
 import PaymentForm from "./payment/PaymentForm";
 
@@ -37,15 +37,16 @@ const Payment = () => {
       );
 
       if (response.status === 200) {
-        alert("Pembayaran selesai!");
-        dispatch(clearOrders());
-        navigate("/");
+        Swal.fire("Success!", "Pembayaran selesai!", "success").then(() => {
+          dispatch(clearOrders());
+          navigate("/");
+        });
       } else {
-        alert(`Error: ${response.data.message}`);
+        Swal.fire("Error", response.data.message, "error");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Terjadi kesalahan. Silakan coba lagi.");
+      Swal.fire("Error", "Terjadi kesalahan. Silakan coba lagi.", "error");
     }
   };
 
