@@ -1,12 +1,18 @@
 import { Link, useParams } from "react-router-dom";
 import { FormatRupiah } from "../utils/FormatRupiah";
 import useProductDetail from "../hooks/useProductDetail";
+import Loading from "../utils/Loading";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const { productDetail, isLoading, isError } = useProductDetail(id);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   if (isError) return <div>Error </div>;
 
   return (
@@ -20,7 +26,7 @@ const ProductDetail = () => {
         </button>
       </div>
       <hr className="min-h-1 bg-black mb-8" />
-      <div className="flex ">
+      <div className="flex justify-between ">
         <table className=" bg-white  mb-4">
           <tbody>
             <tr>
