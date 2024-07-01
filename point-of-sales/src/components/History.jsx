@@ -10,6 +10,7 @@ import useTransactions from "../hooks/useTransactions";
 import { Link } from "react-router-dom";
 import { FormatRupiah } from "../utils/FormatRupiah";
 import { FaSort } from "react-icons/fa";
+import Loading from "../utils/Loading";
 
 const History = () => {
   const { transactions: data, isLoading, isError } = useTransactions();
@@ -76,7 +77,12 @@ const History = () => {
     },
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   if (isError) return <div>Error loading transactions</div>;
 
   return (
