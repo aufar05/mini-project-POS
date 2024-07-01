@@ -1,6 +1,8 @@
 import { MdDelete } from "react-icons/md";
 import { FormatRupiah } from "../../utils/FormatRupiah";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearOrders } from "../../store/reducers/ordersSlice";
 
 const OrderList = ({
   orders,
@@ -9,6 +11,7 @@ const OrderList = ({
   onDecrementQuantity,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleBayarClick = () => {
     navigate("/payment");
@@ -57,6 +60,14 @@ const OrderList = ({
           className="w-full p-2 mt-2 bg-blue-500 text-white rounded"
         >
           Bayar
+        </button>
+        <button
+          className="w-full p-2 mt-2 text-white bg-red-600 rounded"
+          onClick={() => {
+            dispatch(clearOrders());
+          }}
+        >
+          Reset
         </button>
       </div>
     </div>
