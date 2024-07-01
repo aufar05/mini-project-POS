@@ -1,10 +1,11 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
   getPaginationRowModel,
   flexRender,
+  getFilteredRowModel,
 } from "@tanstack/react-table";
 
 import { Link } from "react-router-dom";
@@ -14,6 +15,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { mutate } from "swr";
 import { FaSort } from "react-icons/fa";
+import Loading from "../utils/Loading";
 
 const Product = () => {
   const { products, isLoading, isError } = useProductTable();
@@ -70,16 +72,32 @@ const Product = () => {
 
   const data = useMemo(() => products || [], [products]);
 
+  const [columnFilters, setColumnFilters] = useState([]);
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    state: {
+      columnFilters,
+    },
+    onColumnFiltersChange: setColumnFilters,
     initialState: {
       pagination: { pageIndex: 0, pageSize: 10 },
     },
   });
+
+  const titleFilter = columnFilters.find((f) => f.id === "title")?.value || "";
+
+  const onFilterChange = (id, value) => {
+    setColumnFilters((prev) => [
+      ...prev.filter((f) => f.id !== id),
+      { id, value },
+    ]);
+  };
 
   const handleDelete = (id) => {
     Swal.fire({
@@ -128,7 +146,13 @@ const Product = () => {
     }
   };
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div>
+        {" "}
+        <Loading />
+      </div>
+    );
   if (isError) return <div>Error loading products</div>;
 
   return (
@@ -141,6 +165,15 @@ const Product = () => {
         >
           Tambah Produk
         </Link>
+      </div>
+      <div className="justify-start  mb-4">
+        <input
+          type="text"
+          placeholder="Cari Produk"
+          value={titleFilter}
+          onChange={(e) => onFilterChange("title", e.target.value)}
+          className="py-2 px-4 border rounded"
+        />
       </div>
       <table className="min-w-full bg-white border">
         <thead>
